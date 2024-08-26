@@ -9,6 +9,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
-        return "Hello Server";
+        return "Hello Server with  text";
     }
 }

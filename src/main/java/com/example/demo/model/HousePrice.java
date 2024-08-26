@@ -3,7 +3,10 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.Currency;
+import java.util.Locale;
 
 @Entity
 public class HousePrice {
@@ -26,7 +29,8 @@ public class HousePrice {
         return this.id;
     }
 
-    public Integer getPrice() {
+    // Private since I don't see a reason to expose this.
+    private Integer getPrice() {
         return this.price;
     }
 
@@ -35,8 +39,9 @@ public class HousePrice {
     }
 
     public String getPriceFormatted() {
-        return "";
-//        return "$ $s".formatted(this.price);
+        Locale currentLocale = new Locale.Builder().setLanguage("nl").setRegion("NL").build();
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(currentLocale);
+        return numberFormat.format(this.price);
     }
 
     public LocalDate getDate() {
