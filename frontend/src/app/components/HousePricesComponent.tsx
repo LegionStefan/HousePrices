@@ -2,10 +2,20 @@
 
 import {useState, useEffect} from 'react';
 
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables)
+import { Line } from "react-chartjs-2";
+
 export default function HousePricesComponent() {
-    const [housePrices, setHousePrices] = useState(null); // State to store the fetched data
-    const [loading, setLoading] = useState(true); // State to manage loading state
-    const [error, setError] = useState(null); // State to manage errors
+    type housePrice = {
+        id: number,
+        date: Date,
+        priceFormatted: string,
+        price: number,
+    };
+    const [housePrices, setHousePrices] = useState<Array<housePrice>>([]); // State to store the fetched data
+    const [loading, setLoading] = useState<boolean>(true); // State to manage loading state
+    const [error, setError] = useState<string>(''); // State to manage errors
 
     useEffect(() => {
         // Fetch data from the API when the component mounts
@@ -38,6 +48,21 @@ export default function HousePricesComponent() {
     return (
         <div>
             <h1>Fetched Data:</h1>
+            <div style={{backgroundColor: 'white'}}>
+                <Line
+                    data={{
+                        labels: housePrices.map((housePrice: housePrice) => housePrice.date),
+                        datasets: [
+                            {
+                                label: 'House Price',
+                                data: housePrices.map((housePrice: housePrice) => housePrice.price),
+                                fill: false,
+                                borderColor: 'rgb(75, 192, 192)',
+                                tension: 0.1
+                            },
+                        ],
+                    }}/>
+            </div>
             <pre>{JSON.stringify(housePrices, null, 2)}</pre>
         </div>
     );
