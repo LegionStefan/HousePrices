@@ -63,7 +63,6 @@ export default function HousePricesComponent() {
                         ],
                     }}/>
             </div>
-            <pre>{JSON.stringify(housePrices, null, 2)}</pre>
         </div>
     );
 }
